@@ -1,0 +1,50 @@
+package am.manaus.com.vai_abastecer.ui.login;
+
+import androidx.lifecycle.ViewModelProvider;
+
+import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+import am.manaus.com.vai_abastecer.R;
+
+public class LoginActivity extends AppCompatActivity {
+
+    private LoginViewModel loginViewModel;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
+                .get(LoginViewModel.class);
+
+        final EditText editTextGasolina = findViewById(R.id.editGasolina);
+        final EditText editTextEtanol = findViewById(R.id.editEtanol);
+        final Button btnAvaliar = findViewById(R.id.avalie);
+        final EditText editResult = findViewById(R.id.total);
+
+        btnAvaliar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Double precoGasolina, precoEtanol;
+                String resultado;
+                precoGasolina = Double.parseDouble(editTextGasolina.getText().toString());
+                precoEtanol = Double.parseDouble((editTextEtanol.getText().toString()));
+
+                if (precoEtanol>precoGasolina*0.7) { //verdadeiro
+                    resultado = "Abastecer com Gasolina";
+                }
+
+                else { //falso
+                    resultado = "Abastecer com Etanol";
+                }
+                editResult.setText(resultado);
+            }
+        });
+    }
+}
